@@ -2,7 +2,7 @@
 configuration:
   pageTitle: "Ahmed Roshdi | Digital Garden"
   pageTitleSuffix: ""
-  enableSPA: true
+  # enableSPA: true
   enablePopovers: true
   analytics:
     provider: plausible
