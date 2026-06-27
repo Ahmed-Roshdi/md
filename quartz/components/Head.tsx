@@ -2,7 +2,7 @@ import { FullSlug, joinSegments, pathToRoot } from "../util/path"
 import { JSResourceToScriptElement } from "../util/resources"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 
-export default (() => {
+export default (( ) => {
   const Head: QuartzComponent = ({ cfg, fileData, externalResources }: QuartzComponentProps) => {
     const title = fileData.frontmatter?.title ?? cfg.pageTitle ?? "Untitled"
     const description = fileData.description?.trim() ?? "No description provided"
@@ -34,10 +34,17 @@ export default (() => {
           if (resource.inline) {
             return <style key={resource.content}>{resource.content}</style>
           } else {
+            // معالجة المسار: تنظيفه من المسارات النسبية إذا كان ملفاً محلياً
+            let href = resource.content
+            if (!href.startsWith("http://" ) && !href.startsWith("https://" )) {
+              const cleanPath = href.replace(/^(?:\.\.\/|\.\/)+/, "")
+              href = joinSegments(baseDir, cleanPath)
+            }
+            
             return (
               <link
                 key={resource.content}
-                href={joinSegments(baseDir, resource.content)}
+                href={href}
                 rel="stylesheet"
                 type="text/css"
                 spa-preserve={resource.spaPreserve}
