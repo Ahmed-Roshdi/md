@@ -29,7 +29,7 @@ export default (() => {
         <meta name="description" content={description} />
         <meta name="generator" content="Quartz" />
         {css.map((href ) => (
-          <link key={href} href={href} rel="stylesheet" type="text/css" spa-preserve />
+          <link key={href} href={joinSegments(baseDir, href)} rel="stylesheet" type="text/css" spa-preserve />
         ))}
         {js
           .filter((resource) => resource.loadTime === "beforeDOMReady")
