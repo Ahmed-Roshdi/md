@@ -28,9 +28,21 @@ export default (() => {
         <link rel="icon" href={iconPath} />
         <meta name="description" content={description} />
         <meta name="generator" content="Quartz" />
-        {css.map((href ) => (
-          <link key={href} href={joinSegments(baseDir, href)} rel="stylesheet" type="text/css" spa-preserve />
-        ))}
+        {css.map((resource ) => {
+          if (resource.inline) {
+            return <style key={resource.content}>{resource.content}</style>
+          } else {
+            return (
+              <link
+                key={resource.content}
+                href={joinSegments(baseDir, resource.content)}
+                rel="stylesheet"
+                type="text/css"
+                spa-preserve={resource.spaPreserve}
+              />
+            )
+          }
+        })}
         {js
           .filter((resource) => resource.loadTime === "beforeDOMReady")
           .map((res) => JSResourceToScriptElement(res, true))}
